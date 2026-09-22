@@ -9,6 +9,10 @@ import { checkGoogleBusinessProfile } from "./checks/places";
 
 const UA = "Mozilla/5.0 (compatible; OrynDiagnostico/1.0; +https://purpleoryn.com)";
 
+// Raw HTML only, no headless-browser render: title/meta/schema/links/alt-text checks
+// won't see content a JS framework injects after load (PSI's checks do execute JS,
+// since Lighthouse runs real Chrome, so mobile/desktop speed and mobile-friendly are unaffected).
+// Deliberate: a render step means per-scan compute cost, which this tool avoids by design.
 async function fetchHomepageHtml(url: URL): Promise<{ html: string | null; finalUrl: URL }> {
   try {
     const res = await fetchWithTimeout(url.toString(), { headers: { "User-Agent": UA } }, 9000);

@@ -6,13 +6,18 @@ export interface ScanClientHandlers {
   onError: (message: string) => void;
 }
 
-export async function scanUrl(url: string, handlers: ScanClientHandlers, signal?: AbortSignal): Promise<void> {
+export async function scanUrl(
+  url: string,
+  businessName: string | undefined,
+  handlers: ScanClientHandlers,
+  signal?: AbortSignal
+): Promise<void> {
   let res: Response;
   try {
     res = await fetch("/api/scan", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ url }),
+      body: JSON.stringify({ url, businessName }),
       signal,
     });
   } catch {

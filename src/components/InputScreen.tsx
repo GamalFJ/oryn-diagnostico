@@ -7,8 +7,9 @@ import { OrynHeader } from "./OrynHeader";
 
 const DOMAIN_PATTERN = /^(?:https?:\/\/)?(?:www\.)?[a-z0-9-]+(?:\.[a-z0-9-]+)+(?:\/.*)?$/i;
 
-export function InputScreen({ onSubmit }: { onSubmit: (url: string) => void }) {
+export function InputScreen({ onSubmit }: { onSubmit: (url: string, businessName?: string) => void }) {
   const [value, setValue] = useState("");
+  const [businessName, setBusinessName] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   function handleSubmit(e: FormEvent) {
@@ -23,7 +24,7 @@ export function InputScreen({ onSubmit }: { onSubmit: (url: string) => void }) {
       return;
     }
     setError(null);
-    onSubmit(trimmed);
+    onSubmit(trimmed, businessName.trim() || undefined);
   }
 
   return (
@@ -70,6 +71,25 @@ export function InputScreen({ onSubmit }: { onSubmit: (url: string) => void }) {
               {error}
             </p>
           )}
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label htmlFor="business-name" className="text-sm font-medium text-[var(--color-text)]">
+            Nombre del negocio <span className="font-normal text-[var(--color-text-muted)]">(opcional)</span>
+          </label>
+          <input
+            id="business-name"
+            name="business-name"
+            type="text"
+            autoComplete="organization"
+            placeholder="Ferretería El Progreso"
+            value={businessName}
+            onChange={(e) => setBusinessName(e.target.value)}
+            className="h-14 w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-4 text-base text-[var(--color-text)] placeholder:text-[var(--color-text-muted)] outline-none transition-colors focus:border-[var(--color-accent)] focus:ring-2 focus:ring-[var(--color-accent)]/30"
+          />
+          <p className="text-xs text-[var(--color-text-muted)]">
+            Ayuda a encontrar el perfil de Google correcto si el dominio no se parece al nombre real.
+          </p>
         </div>
 
         <button

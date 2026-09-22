@@ -58,7 +58,9 @@ async function runPageSpeed(url: URL, strategy: "mobile" | "desktop"): Promise<P
 }
 
 function scoreStatus(score: number): SignalStatus {
-  if (score >= 80) return "pass";
+  // Matches PSI's own color bands (green/orange/red at 90/50) so this never
+  // disagrees with what the client sees on Google's own report.
+  if (score >= 90) return "pass";
   if (score >= 50) return "warn";
   return "fail";
 }

@@ -27,7 +27,7 @@ export default function Home() {
   const abortRef = useRef<AbortController | null>(null);
   const exportCardRef = useRef<HTMLDivElement>(null);
 
-  const startScan = useCallback((url: string) => {
+  const startScan = useCallback((url: string, businessName?: string) => {
     setError(null);
     setSummary(null);
     reset();
@@ -39,6 +39,7 @@ export default function Home() {
 
     scanUrl(
       url,
+      businessName,
       {
         onSignal: (event) => push(event.signal),
         onDone: (event) => {
